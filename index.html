@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>My Games</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      background: #111;
+      color: #fff;
+    }
+
+    header {
+      max-width: 1000px;
+      margin: 0 auto 32px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    .game-list {
+      max-width: 1000px;
+      margin: 0 auto;
+
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fit, minmax(240px, 1fr));
+
+      gap: 16px;
+    }
+
+    .game-card {
+      min-height: 170px;
+
+      padding: 20px;
+
+      border: 1px solid #444;
+      border-radius: 12px;
+
+      background: #1c1c1c;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .game-number {
+      color: #888;
+      font-size: 13px;
+    }
+
+    .game-title {
+      margin: 8px 0;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .play-button {
+      display: block;
+
+      margin-top: 20px;
+      padding: 12px;
+
+      text-align: center;
+      text-decoration: none;
+
+      border-radius: 8px;
+
+      background: #fff;
+      color: #111;
+
+      font-weight: bold;
+    }
+
+    .play-button:hover {
+      opacity: 0.85;
+    }
+
+    .coming-soon {
+      margin-top: 20px;
+      padding: 12px;
+
+      text-align: center;
+
+      border-radius: 8px;
+
+      background: #333;
+      color: #888;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>My Games</h1>
+    <div class="subtitle">
+      AIを使って制作したブラウザゲーム
+    </div>
+  </header>
+
+
+  <main class="game-list">
+
+    <!-- 01 -->
+    <section class="game-card">
+      <div>
+        <div class="game-number">GAME 01</div>
+        <div class="game-title">
+          DOT CARD BATTLE
+        </div>
+      </div>
+
+      <a
+        class="play-button"
+        href="./01_dot-card-battle/"
+      >
+        PLAY
+      </a>
+    </section>
+
+
+    <!-- 02 -->
+    <section class="game-card">
+      <div>
+        <div class="game-number">GAME 02</div>
+        <div class="game-title">
+          BOROTOBORO
+        </div>
+      </div>
+
+      <div class="coming-soon">
+        準備中
+      </div>
+    </section>
+
+
+    <!-- 03 -->
+    <section class="game-card">
+      <div>
+        <div class="game-number">GAME 03</div>
+        <div class="game-title">
+          FALLEN BRIDGE
+        </div>
+      </div>
+
+      <div class="coming-soon">
+        準備中
+      </div>
+    </section>
+
+
+    <!-- 04 -->
+    <section class="game-card">
+      <div>
+        <div class="game-number">GAME 04</div>
+        <div class="game-title">
+          POPULATION MAINTENANCE
+        </div>
+      </div>
+
+      <div class="coming-soon">
+        準備中
+      </div>
+    </section>
+
+
+    <!-- 05 -->
+    <section class="game-card">
+      <div>
+        <div class="game-number">GAME 05</div>
+        <div class="game-title">
+          SLOT BUILD ROGUELITE
+        </div>
+      </div>
+
+      <div class="coming-soon">
+        準備中
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>
