@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#17233b"><title>大富豪対戦 · dotcardbattle</title><link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./shell.css"><link rel="stylesheet" href="./battle.css"></head>
+<body><main class="screen battle-page">
+  <section id="battle-setup" class="battle-setup">
+    <p class="eyebrow">SOLO CARD BATTLE</p><h1>大富豪対戦</h1>
+    <p>同ランクの組と同一スートの階段で勝負。場と同じ構成・枚数で返します。</p>
+    <label for="player-count">対戦人数</label>
+    <select id="player-count"><option value="2" selected>2人（あなた＋CPU 1人）</option><option value="3">3人（あなた＋CPU 2人）</option><option value="4">4人（あなた＋CPU 3人）</option></select>
+    <p class="setup-rule-note">ヘッダーの「ルール詳細」で追加ルールを選べます。</p>
+    <button id="start-game" class="primary-action" type="button">開始 <span>→</span></button>
+    <a class="secondary-action" href="./index.html">戻る</a>
+    <p class="setup-note">日本大富豪連盟ルールを基本にした対戦 · 54枚、ジョーカー2枚</p>
+  </section>
+  <section id="exchange-setup" class="battle-setup" hidden><p class="eyebrow" id="exchange-round"></p><h1>カード交換</h1><p id="exchange-instruction"></p><div id="exchange-cards" class="exchange-cards"></div><button id="confirm-exchange" class="primary-action" type="button" disabled>渡すカードを確定</button><p id="exchange-receipt" hidden></p><button id="exchange-okay" class="primary-action" type="button" hidden>OK · 対戦開始 →</button></section>
+  <section id="battle-game" class="battle-game" hidden>
+    <div class="battle-heading"><h1 id="turn-heading">大富豪対戦</h1><div id="series-live" class="series-live"></div></div>
+    <div id="opponents" class="opponents" aria-label="対戦相手"></div>
+    <section id="battle-field" class="battle-field" aria-label="カードを出すフィールド"><div class="field-label">FIELD · 選んだカードをドロップ</div><div id="field-card-slot"></div><p id="battle-message" role="status" hidden></p></section>
+    <div id="move-kind-row" class="move-kind-row" hidden><span>出し方</span><button id="kind-group" type="button">同ランク</button><button id="kind-stair" type="button">階段</button></div>
+    <div class="action-row"><button id="play-button" type="button">0枚出す</button><button id="pass-button" type="button">パス</button></div>
+    <section class="hand-zone" aria-label="あなたの手札"><div id="hand-scroll" class="hand-scroll"><div id="hand-stage" class="hand-stage"></div></div></section>
+    <div class="battle-stats"><span>手札 <b id="hand-count">0</b></span><span>場 <b id="pile-info">なし</b></span><span id="rule-info">通常</span><span>手番 <b id="turn-info">—</b></span></div>
+  </section>
+  <section id="battle-result" class="battle-result" hidden><p class="eyebrow" id="result-round">GAME RESULT</p><h1 id="result-title">決着</h1><ol id="result-list"></ol><div id="score-summary" class="score-summary"></div><div id="series-history" class="series-history"></div><button id="next-game" class="primary-action" type="button">カード交換して次のゲーム →</button><button id="retry-game" class="secondary-action" type="button">最初から</button><a class="secondary-action" href="./index.html">トップに戻る</a></section>
+</main>
+<dialog id="rules-dialog" aria-labelledby="rules-title">
+  <div class="rules-dialog-head"><h2 id="rules-title">ルール詳細</h2><form method="dialog"><button type="submit" aria-label="ルール詳細を閉じる">×</button></form></div>
+  <p>日本大富豪連盟ルールを基本にします。場と同じ枚数・構成で、より強い組を出します。</p>
+  <section><h3>出し方とジョーカー</h3>
+    <ul>
+      <li>同ランクは1〜6枚。実札4枚＋JK2枚で6枚出しもできます。</li>
+      <li>階段は同じスートで3枚以上の連番。<strong>最弱札</strong>で比較します。例：K-A-2にはA-2-JKで返せます。</li>
+      <li>JKの階段で複数の並びが成り立つときは自動で最強に解釈します。例：4-5-JKは4-5-6。</li>
+      <li>先手の実札1枚＋JK2枚がトリプルと階段の両方になるときだけ、出し方を選びます。</li>
+      <li>JK-JKのペア、同ランク6枚、JKを最上段に置く最強階段は即流れます。例：K-JK-2-JKもK-A-2-JKとして即流し。</li>
+    </ul>
+  </section>
+  <section><h3>特殊処理</h3>
+    <ul>
+      <li>革命は同ランク4枚以上（3人戦は3枚）。出した直後に強弱が反転し、革命返しで戻ります。JKは常に最強です。</li>
+      <li>8切りは階段以外の「8だけでできた組」。例：8-8-8-8は革命と8切り、6-7-8の階段は流れません。</li>
+      <li>♠3は単独JKにだけ返せます。縛り中でも有効で、そのまま流れます。</li>
+      <li>同じスート構成が連続すると縛り成立。例：♠5→♠7は♠縛り、♠5・♥5→♠7・♥7は♠♥縛り。一部だけ一致しても成立しません。階段も同じスートの連続で成立します。</li>
+      <li>JK入りでは新しく縛れません。既存の縛りでは不足スートを代用でき、単独JKでも縛りは維持されます。革命でも縛りは続き、場が流れると解除されます。</li>
+      <li>一度パスすると場が流れるまで復帰できません。</li>
+    </ul>
+  </section>
+  <section><h3>反則上がりと順位</h3>
+    <ul>
+      <li>最後の手に通常時の2、革命時の3、JK、8切り、単独の♠3があれば反則上がり。判定する強弱は<strong>出す直前</strong>の革命状態です。</li>
+      <li>例：通常時の3-3-3-3上がりは合法。8-8-8-8上がりは反則でも革命と8切りが発動します。</li>
+      <li>反則上がりは退場し、最下位から順位が決まります。有効な上がりだけが前大富豪の都落ちを起こし、反則者は都落ちした人より下位です。</li>
+      <li>次のゲームでは大富豪↔大貧民が2枚、富豪↔貧民が1枚を交換します。</li>
+    </ul>
+  </section>
+  <fieldset class="rules-options"><legend>追加ルール（次の対戦から適用）</legend>
+    <label><input id="option-eleven" type="checkbox"> イレブンバック：階段以外のJを出すと、場が流れるまで強弱が逆転。革命中は通常順へ戻ります。J4枚なら革命と同時発動</label>
+    <label><input id="option-stair-revolution" type="checkbox"> 階段革命：5枚以上の階段で、出した瞬間に強弱が逆転（4枚では起きない）</label>
+    <label><input id="option-full-lock" type="checkbox"> 完全縛り（ローカル）：スート縛りに連続数字も追加。例：♥6→♥7なら次は♥8か単独JK。革命中は数字の方向も逆</label>
+  </fieldset>
+  <p class="rules-variation">このゲームは従来の2〜4人戦を維持するため、54枚を全配布します。連盟大会のブラインドカードや3人戦の40枚構成とは異なります。</p>
+  <p><a href="https://daifugojapan.com/rule-book" target="_blank" rel="noopener noreferrer">日本大富豪連盟 公式ルール</a></p>
+</dialog>
+<script type="module" src="./battle.js"></script></body></html>

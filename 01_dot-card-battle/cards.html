@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#17233b">
+  <title>カード一覧 · dotcardbattle</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./shell.css">
+</head>
+<body>
+  <main class="screen">
+    <section class="intro">
+      <p class="eyebrow">PLAYING CARD ASSETS</p>
+      <h1>カード一覧</h1>
+      <p>54枚の表面と、4人それぞれの裏面。カードをタップすると拡大できます。</p>
+    </section>
+    <nav class="tabs" aria-label="カードの種類">
+      <button class="active" data-view="faces" type="button">表面 54</button>
+      <button data-view="backs" type="button">裏面 4</button>
+    </nav>
+    <section id="faces" class="panel" aria-label="カードの表面"></section>
+    <section id="backs" class="panel hidden" aria-label="カードの裏面"></section>
+    <footer>4 SUITS · 13 RANKS · 2 JOKERS · 4 BACKS</footer>
+  </main>
+  <dialog id="preview"><button id="close" class="close" aria-label="閉じる" type="button">×</button><div id="preview-card"></div><p id="preview-name"></p></dialog>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
